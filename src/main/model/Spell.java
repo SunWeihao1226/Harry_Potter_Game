@@ -1,16 +1,12 @@
 package model;
 
-import org.json.simple.JSONObject;
-
-import java.util.HashMap;
-import java.util.Hashtable;
-
 //Represents a spell that can be used to attack the enemy by the wizard.
 public class Spell {
 
     public String spellsName;
     // REQUIRES: atk >= 10 && atk <= 99.
     public int atk;
+    public boolean isUnlocked;
 
     //Constructor
     //MODIFIES: this
@@ -43,5 +39,13 @@ public class Spell {
     //EFFECTS: setter
     public void setAtk(int atk) {
         this.atk = atk;
+    }
+
+    public boolean isUnlocked() {
+        return isUnlocked;
+    }
+
+    public void setUnlocked(boolean unlocked) {
+        isUnlocked = unlocked;
     }
 }

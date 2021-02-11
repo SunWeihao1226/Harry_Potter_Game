@@ -9,7 +9,7 @@ public class Ron extends Wizards {
     public Ron(String name) {
         super(name);
         hp = 90;
-        atk = 12;
+        atk = 20;
         maxHp = 90;
     }
 }

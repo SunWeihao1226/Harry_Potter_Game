@@ -2,10 +2,8 @@ package ui.panels;
 
 import model.Archive;
 import model.Battle;
-import model.Spell;
 import model.characters.*;
 import ui.Run;
-import ui.buttonaction.NavigateAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +27,14 @@ public class SelectWizardsPanel extends GamePanel {
     public Ron ron = new Ron("Ron");
     public Hermione hermione = new Hermione("Hermione");
 
+    public Battle battle1;
+    public Battle battle2;
+    public Battle battle3;
+    public Enemies deathEater;
+    public Enemies quir;
+    public Enemies basilisk;
+
+
     // MODIFIES: this
     // EFFECTS: construct the panel.
     public SelectWizardsPanel(Run run, Archive archive) {
@@ -37,6 +43,19 @@ public class SelectWizardsPanel extends GamePanel {
         initializeContents();
         initializeInteraction();
         addToPanel();
+
+    }
+
+    public void initializeBattle(){
+        deathEater = new DeathEater("DeathEater");
+        quir = new Quirrell("Quirrell");
+        basilisk = new Basilisk("Basilisk");
+        battle1 = new Battle("Battle1", archive.getSelectedWizard(), deathEater);
+        battle2 = new Battle("Battle2", archive.getSelectedWizard(), quir);
+        battle3 = new Battle("Battle3", archive.getSelectedWizard(), basilisk);
+        archive.addBattle(battle1);
+        archive.addBattle(battle2);
+        archive.addBattle(battle3);
 
     }
 
@@ -71,6 +90,8 @@ public class SelectWizardsPanel extends GamePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 archive.setSelectedWizard(harry);
+                archive.setCheckPoint(1);
+//                initializeBattle();
                 selectWizardSuccessfulDialog();
             }
         });
@@ -78,6 +99,8 @@ public class SelectWizardsPanel extends GamePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 archive.setSelectedWizard(ron);
+                archive.setCheckPoint(1);
+//                initializeBattle();
                 selectWizardSuccessfulDialog();
             }
         });
@@ -85,6 +108,8 @@ public class SelectWizardsPanel extends GamePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 archive.setSelectedWizard(hermione);
+                archive.setCheckPoint(1);
+//                initializeBattle();
                 selectWizardSuccessfulDialog();
             }
         });
@@ -98,10 +123,20 @@ public class SelectWizardsPanel extends GamePanel {
         toBattleBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                run.archive = archive;
-                goToBattle();
+                if (archive.selectedWizard.getName().equals("noName")) {
+                    selectDialog();
+                } else {
+                    run.archive = archive;
+                    goToBattle();
+                }
             }
         });
+    }
+
+    private void selectDialog() {
+        JOptionPane.showMessageDialog(this,
+                "Please select your wizard!",
+                "Error", JOptionPane.PLAIN_MESSAGE);
     }
 
     // MODIFIES: this
@@ -111,9 +146,15 @@ public class SelectWizardsPanel extends GamePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 run.archive = archive;
-                setInvisible();
-                run.game.setVisible(false);
-                run.battle1();
+                GamePanel selectSpells = new SelectSpellsPanel(run, archive);
+                selectSpells.updatePanel();
+                run.setContentPane(selectSpells);
+                setVisible(false);
+                selectSpells.setVisible(true);
+                run.validate();
+//                setVisible(false);
+////                run.game.setVisible(false);
+//                run.battle1();
             }
         });
     }

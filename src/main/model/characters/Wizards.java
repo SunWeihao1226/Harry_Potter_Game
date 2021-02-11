@@ -73,6 +73,8 @@ public class Wizards implements Character {
         return maxHp;
     }
 
+
+
     //setters
     public void setName(String name) {
         this.name = name;

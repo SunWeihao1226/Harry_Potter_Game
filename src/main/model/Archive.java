@@ -13,7 +13,7 @@ public class Archive implements Savable {
     public Wizards selectedWizard;
     public Integer checkPoint;
     //REQUIRES: gottenSpells no more than 9 spells.
-    public HashMap<Integer, Spell> gottenSpells;
+    public HashMap<Integer, Spell> unlockedSpells;
     public List<Battle> battles;
 
     //Constructor
@@ -23,7 +23,7 @@ public class Archive implements Savable {
         archiveName = name;
         selectedWizard = new Wizards("noName");
         this.checkPoint = 0;
-        gottenSpells = new HashMap<>();
+        unlockedSpells = new HashMap<>();
         battles = new ArrayList<>();
 
     }
@@ -35,7 +35,7 @@ public class Archive implements Savable {
         checkPoint = Integer.parseInt(cp);
         selectedWizard.setMaxHp(Integer.parseInt(maxHP));
         selectedWizard.setAtk(Integer.parseInt(curAtk));
-        gottenSpells = new HashMap<>();
+        unlockedSpells = new HashMap<>();
         battles = new ArrayList<>();
     }
 
@@ -48,14 +48,14 @@ public class Archive implements Savable {
         object.put("Check Point", checkPoint);
         object.put("Current MaxHP", selectedWizard.getMaxHp());
         object.put("Current ATK", selectedWizard.getAtk());
-        object.put("Unlocked Spells", spellList(gottenSpells.keySet()));
+        object.put("Unlocked Spells", spellList(unlockedSpells.keySet()));
         return object;
     }
 
     public List<String> spellList(Set<Integer> spells) {
         List<String> spellList = new ArrayList<>();
         for (Integer i : spells) {
-            spellList.add(i + ". " + gottenSpells.get(i).spellsName + "." + gottenSpells.get(i).atk);
+            spellList.add(i + ". " + unlockedSpells.get(i).spellsName + "." + unlockedSpells.get(i).atk);
         }
         return spellList;
     }
@@ -84,12 +84,12 @@ public class Archive implements Savable {
     //MODIFIES: this
     //EFFECTS: add spells that are unlocked and can be used
     public void addSpells(int i, Spell spell) {
-        gottenSpells.put(i, spell);
+        unlockedSpells.put(i, spell);
     }
 
     //EFFECTS: get the ith spells in the list
     public Spell getSpells(int i) {
-        return gottenSpells.get(i);
+        return unlockedSpells.get(i);
     }
 
 
@@ -115,8 +115,12 @@ public class Archive implements Savable {
         return checkPoint;
     }
 
-    public HashMap<Integer, Spell> getGottenSpells() {
-        return gottenSpells;
+    public HashMap<Integer, Spell> getUnlockedSpells() {
+        return unlockedSpells;
+    }
+
+    public List<Battle> getBattles() {
+        return battles;
     }
 
     //setter
@@ -146,13 +150,13 @@ public class Archive implements Savable {
         return archiveName.equals(archive.archiveName)
                 && Objects.equals(selectedWizard, archive.selectedWizard)
                 && Objects.equals(checkPoint, archive.checkPoint)
-                && Objects.equals(gottenSpells, archive.gottenSpells)
+                && Objects.equals(unlockedSpells, archive.unlockedSpells)
                 && Objects.equals(battles, archive.battles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(archiveName, selectedWizard, checkPoint, gottenSpells, battles);
+        return Objects.hash(archiveName, selectedWizard, checkPoint, unlockedSpells, battles);
     }
 }
 

@@ -48,7 +48,7 @@ class ArchiveTest {
     @Test
     public void testGetSpells() {
         archive.addSpells(1,expelliarmus);
-        assertTrue(archive.gottenSpells.containsValue(expelliarmus));
+        assertTrue(archive.unlockedSpells.containsValue(expelliarmus));
     }
 
 

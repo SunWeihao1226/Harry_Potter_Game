@@ -29,6 +29,8 @@ public class Reader {
         fileReader = new FileReader(str);
     }
 
+
+
     // MODIFIES: this
     // EFFECTS: return the archive modified by parsing the json file
     public Archive parseArchive(JSONObject data) {
@@ -68,5 +70,9 @@ public class Reader {
         }
         return slot;
     }
+
+
+
+
 
 }

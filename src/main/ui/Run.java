@@ -21,6 +21,8 @@ import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.Character;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 //Helper class of Main. Represents the user panel.
@@ -35,6 +37,7 @@ public class Run extends JFrame {
     Wizards hermione;
     Wizards ron;
     public Battle battle1;
+    public List<Spell> spellsToAdd;
 
     String fileName = "./data/data.json";
 
@@ -63,6 +66,8 @@ public class Run extends JFrame {
         archive.addSpells(2, expelliarmus);
         archive.addSpells(3, petrificus);
         archive.addSpells(4, obliviate);
+        spellsToAdd = new ArrayList<>();
+        spellsToAdd.add(reducto);
         goPanel();
     }
 
@@ -411,8 +416,8 @@ public class Run extends JFrame {
     //EFFECTS: Show all spells a player unlocked.
     public void showSpellsHelper() {
         System.out.println("Now enter the number to choose FOUR Spells you want to use in the battle:");
-        for (Integer key : archive.gottenSpells.keySet()) {
-            System.out.println(key + ". " + archive.gottenSpells.get(key).spellsName);
+        for (Integer key : archive.unlockedSpells.keySet()) {
+            System.out.println(key + ". " + archive.unlockedSpells.get(key).spellsName);
         }
     }
 
@@ -422,13 +427,13 @@ public class Run extends JFrame {
         Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < 4; i++) {
             String str = scanner.nextLine();
-            if (!isNumber(str) || !archive.gottenSpells.keySet().contains(Integer.parseInt(str))) {
+            if (!isNumber(str) || !archive.unlockedSpells.keySet().contains(Integer.parseInt(str))) {
                 throw new CannotFindSpellException();
             }
-            for (Integer key : archive.gottenSpells.keySet()) {
+            for (Integer key : archive.unlockedSpells.keySet()) {
                 if (str.equals(key.toString())) {
-                    battle.addSpellsToUse(i + 1, archive.gottenSpells.get(key));
-                    System.out.println("You have chosen " + archive.gottenSpells.get(key).spellsName);
+                    battle.addSpellsToUse(i + 1, archive.unlockedSpells.get(key));
+                    System.out.println("You have chosen " + archive.unlockedSpells.get(key).spellsName);
                 }
             }
         }
@@ -446,8 +451,8 @@ public class Run extends JFrame {
     //MODIFIES: this
     //EFFECTS: helper method of adding spells to gottenSpells
     public void battleAddSpellsHelper(Battle battle) {
-        for (Integer key : archive.gottenSpells.keySet()) {
-            battle.addSpellsToChoose(key, archive.gottenSpells.get(key));
+        for (Integer key : archive.unlockedSpells.keySet()) {
+            battle.addSpellsToChoose(key, archive.unlockedSpells.get(key));
         }
     }
 

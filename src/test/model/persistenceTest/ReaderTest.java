@@ -80,7 +80,7 @@ public class ReaderTest {
             assertTrue(slot.getSlot().containsKey("archive2"));
             assertFalse(slot.getSlot().containsKey("archive4"));
             Archive newArchive = slot.getArchive("archive1");
-            assertEquals(3, newArchive.gottenSpells.size());
+            assertEquals(3, newArchive.unlockedSpells.size());
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

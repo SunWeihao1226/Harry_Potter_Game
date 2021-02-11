@@ -6,7 +6,7 @@ import ui.panels.GamePanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NavigateAction implements ActionListener {
+public class NavigateAction implements ActionListener { // Delete this Class! Use navigator function in each panel
     private Run run;
     private GamePanel curPanel;
     private GamePanel nextPanel;

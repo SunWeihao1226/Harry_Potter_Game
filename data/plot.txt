@@ -1,0 +1,4 @@
+<html>Welcome to the Hogwarts, wizard!<br>As a new fighter to protect our magic world, <br>you must learn to use spells to fight.<br>Now, try to use these four spells，<br>attack the Death Eater!</html>
+<html>Good job Wizard!<br>Oh no! Look! That's Quirrell.<br>He is stealing the Philosopher's Stone!<br>You must stop him!</html>
+<html>You really are a smart wizard!<br>I'm sure you have heard of Lord Voldemort.<br>I mean, the "You-Know-Who"<br>He once had a diary,<br>which must be found and destroyed.<br>Go to the Chamber of Secrets.<br>And fight against the Basilisk!</html>
+<html>Congratulations! You won all the battles!<br>But the amazing adventure just starts!<br>Be prepared! There will be more enemies...</html>

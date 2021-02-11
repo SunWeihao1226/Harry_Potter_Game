@@ -27,13 +27,11 @@ public class Battle {
     }
 
 
+
     // MODIFIES: this
     // EFFECTS: return true if an enemy is dead
     public boolean isWin() {
-        if (enemy.isDead) {
-            return true;
-        }
-        return false;
+        return enemy.isDead;
     }
 
     //MODIFIES: this
@@ -79,15 +77,20 @@ public class Battle {
 
 
     // EFFECT: returns the ATK of the spell associated with the spell's number
-    public int spellAtk(int i) {
-        if (i == 1) {
-            return spellToUse.get(1).atk;
-        } else if (i == 2) {
-            return spellToUse.get(2).atk;
-        } else if (i == 3) {
-            return spellToUse.get(3).atk;
-        } else if (i == 4) {
-            return spellToUse.get(4).atk;
+    public int spellAtk(int index) { //!!!
+//        if (i == 0) {
+//            return spellToUse.get(1).atk;
+//        } else if (i == 2) {
+//            return spellToUse.get(2).atk;
+//        } else if (i == 3) {
+//            return spellToUse.get(3).atk;
+//        } else if (i == 4) {
+//            return spellToUse.get(4).atk;
+//        } else {
+//            return 0;
+//        }
+        if (index >= 0 && index < 5) {
+            return spellToUse.get(index).atk;
         } else {
             return 0;
         }

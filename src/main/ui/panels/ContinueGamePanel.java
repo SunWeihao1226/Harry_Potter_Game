@@ -2,7 +2,6 @@ package ui.panels;
 
 import model.Archive;
 import ui.Run;
-import ui.buttonaction.NavigateAction;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -18,12 +17,13 @@ public class ContinueGamePanel extends GamePanel {
     protected JList<Archive> archiveList;
     protected JScrollPane curUserPanel;
     private JButton continueGame;
-    private JButton toBattle;
+//    private JButton toBattle;
+    private JButton goBack;
     private JLabel label;
     private JLabel info;
     protected Archive selectedArchive;
     protected Archive curArchive;
-    private SelectWizardsPanel selectWizardsPanel;
+//    private SelectWizardsPanel selectWizardsPanel;
 
     // MODIFIES: this
     // EFFECTS: Construct the panel
@@ -40,14 +40,15 @@ public class ContinueGamePanel extends GamePanel {
     // EFFECTS: initialize the contents.
     @Override
     public void initializeContents() {
-        continueGame = new JButton("Read Archive");
-        toBattle = new JButton("Continue");
+        continueGame = new JButton("Continue Game");
+//        toBattle = new JButton("Continue");
+        goBack = new JButton("back");
         curUserPanel = new JScrollPane(archiveList);
         curUserPanel.setPreferredSize(new Dimension(300, 600));
         curUserPanel.getHorizontalScrollBar().setPreferredSize(new Dimension(1, 1));
         label = new JLabel("Your existing archives: ");
 
-        selectWizardsPanel = new SelectWizardsPanel(run, archive);
+//        selectWizardsPanel = new SelectWizardsPanel(run, archive);
     }
 
 
@@ -83,28 +84,74 @@ public class ContinueGamePanel extends GamePanel {
         updateSlot();
     }
 
+    private void nextStep() {
+
+    }
+
     // EFFECTS: this
     // EFFECTS: initialize the continue button
     private void initializeContinueButton() {
-        NavigateAction action = new NavigateAction(run, this, selectWizardsPanel);
+//        NavigateAction action = new NavigateAction(run, this, selectWizardsPanel);
         continueGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (selectedArchive != null) {
                     archive = selectedArchive;
-                    readSuccessfullyDialog();
+                    if (archive.getCheckPoint() == 0) {
+                        readSuccessfullyDialog();
+                        nextStep();
+                        GamePanel selectWizardsPanel = new SelectWizardsPanel(run, archive);
+                        run.archive = archive;
+                        selectWizardsPanel.updatePanel();
+                        run.setContentPane(selectWizardsPanel);
+                        setVisible(false);
+                        selectWizardsPanel.setVisible(true);
+                        run.validate();
+                    } else {
+                        archive = selectedArchive;
+                        readSuccessfullyDialog();
+                        nextStep();
+                        GamePanel selectSpellPanel = new SelectSpellsPanel(run, archive);
+                        run.archive = archive;
+                        selectSpellPanel.updatePanel();
+                        run.setContentPane(selectSpellPanel);
+                        setVisible(false);
+                        selectSpellPanel.setVisible(true);
+                        run.validate();
+
+                    }
+
                 }
             }
         });
 
-        toBattle.addActionListener(new ActionListener() {
+//        toBattle.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (archive.checkPoint == 0) {
+////                    toBattle.addActionListener(action);
+//                    GamePanel selectWizardsPanel = new SelectWizardsPanel(run, archive);
+//                    run.archive = archive;
+//                    selectWizardsPanel.updatePanel();
+//                    run.setContentPane(selectWizardsPanel);
+//                    setVisible(false);
+//                    selectWizardsPanel.setVisible(true);
+//                    run.validate();
+//                } else {
+//                    goToBattle();
+//                }
+//            }
+//        });
+
+        goBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (archive.checkPoint == 0) {
-                    toBattle.addActionListener(action);
-                } else {
-                    goToBattle();
-                }
+                GamePanel startPanel = new StartPanel(run, archive);
+                startPanel.updatePanel();
+                run.setContentPane(startPanel);
+                setVisible(false);
+                startPanel.setVisible(true);
+                run.validate();
             }
         });
     }
@@ -112,8 +159,8 @@ public class ContinueGamePanel extends GamePanel {
     // EFFECTS: initialize a dialog window
     private void readSuccessfullyDialog() {
         JOptionPane.showMessageDialog(this,
-                "You have chosen " + archive.getArchiveName(),
-                "Read Successfully", JOptionPane.PLAIN_MESSAGE);
+                "Load your game: " + archive.getArchiveName(),
+                "Load Successfully", JOptionPane.PLAIN_MESSAGE);
     }
 
     // MODIFIES: this
@@ -156,7 +203,7 @@ public class ContinueGamePanel extends GamePanel {
 
         gbc.insets = new Insets(0, 20, 20, 10);
         gbc.gridy = 1;
-        gbc.gridheight = 3;
+        gbc.gridheight = 100;
         add(curUserPanel, gbc);
         gbc.insets = new Insets(20, 40, 0, 20);
         gbc.gridx = 4;
@@ -165,8 +212,10 @@ public class ContinueGamePanel extends GamePanel {
         add(info, gbc);
         gbc.gridy = 2;
         add(continueGame, gbc);
+//        gbc.gridy = 3;
+//        add(toBattle, gbc);
         gbc.gridy = 3;
-        add(toBattle, gbc);
+        add(goBack, gbc);
 
     }
 

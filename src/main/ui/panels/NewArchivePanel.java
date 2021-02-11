@@ -3,7 +3,6 @@ package ui.panels;
 import model.Archive;
 import model.Spell;
 import ui.Run;
-import ui.buttonaction.NavigateAction;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -21,10 +20,11 @@ public class NewArchivePanel extends GamePanel {
     protected JScrollPane curUserPanel;
     private JButton newGame;
     private JButton continueGame;
+    private JButton goBack;
     private JLabel label;
     private JLabel info;
     private JTextField archiveName;
-    private SelectWizardsPanel selectWizardsPanel;
+//    private SelectWizardsPanel selectWizardsPanel;
     protected Archive selectedArchive;
     protected Archive curArchive;
 
@@ -53,12 +53,13 @@ public class NewArchivePanel extends GamePanel {
         curUserPanel.setPreferredSize(new Dimension(300, 600));
         curUserPanel.getHorizontalScrollBar().setPreferredSize(new Dimension(1, 1));
         newGame = new JButton("Create New Archive");
+        goBack = new JButton("back");
         continueGame = new JButton("Continue");
         info = new JLabel("Please create your new archive, "
                  + "then select your new archive and double click continue.");
         label = new JLabel("Your existing archives: ");
         archiveName = new JTextField();
-        selectWizardsPanel = new SelectWizardsPanel(run, archive);
+//        selectWizardsPanel = new SelectWizardsPanel(run, archive);
     }
 
 
@@ -108,16 +109,35 @@ public class NewArchivePanel extends GamePanel {
                 updatePanel();
             }
         });
-        NavigateAction toNext = new NavigateAction(run, this, selectWizardsPanel);
+//        NavigateAction toNext = new NavigateAction(run, this, selectWizardsPanel);
         continueGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(selectedArchive == archive)) {
                     continueFailDialog();
                 } else {
+                    GamePanel selectWizardsPanel = new SelectWizardsPanel(run, archive);
                     archive = selectedArchive;
-                    continueGame.addActionListener(toNext);
+//                    continueGame.addActionListener(toNext);
+                    selectWizardsPanel.updatePanel();
+                    run.setContentPane(selectWizardsPanel);
+                    setVisible(false);
+                    selectWizardsPanel.setVisible(true);
+                    run.validate();
+
                 }
+            }
+        });
+
+        goBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GamePanel startPanel = new StartPanel(run, archive);
+                startPanel.updatePanel();
+                run.setContentPane(startPanel);
+                setVisible(false);
+                startPanel.setVisible(true);
+                run.validate();
             }
         });
     }
@@ -188,11 +208,11 @@ public class NewArchivePanel extends GamePanel {
 
         gbc.insets = new Insets(0, 20, 20, 10);
         gbc.gridy = 1;
-        gbc.gridheight = 3;
+        gbc.gridheight = 100;
         add(curUserPanel, gbc);
 
         gbc.insets = new Insets(20, 40, 0, 20);
-        gbc.gridx = 4;
+        gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridheight = 1;
         add(info, gbc);
@@ -200,6 +220,9 @@ public class NewArchivePanel extends GamePanel {
         add(newGame, gbc);
         gbc.gridy = 3;
         add(continueGame, gbc);
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.gridy = 4;
+        add(goBack, gbc);
 
     }
 

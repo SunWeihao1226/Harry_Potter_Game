@@ -10,5 +10,6 @@ public class Hermione extends Wizards {
         super(name);
         hp = 80;
         atk = 15;
+        maxHp = 80;
     }
 }

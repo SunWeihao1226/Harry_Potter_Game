@@ -8,7 +8,8 @@ public class Quirrell extends Enemies {
     //EFFECTS: Construct a Quirrell enemy
     public Quirrell(String name) {
         super(name);
-        hp = 110;
+        hp = 100;
         atk = 20;
+        maxHP = 100;
     }
 }
