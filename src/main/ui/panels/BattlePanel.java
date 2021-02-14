@@ -18,7 +18,6 @@ import java.util.Map;
 
 public class BattlePanel extends GamePanel{
 
-    private JLabel temp;
     private JLabel playerIcon;
     private JLabel enemyIcon;
     private JLabel gameInfo;
@@ -33,9 +32,9 @@ public class BattlePanel extends GamePanel{
     Enemies curEne;
 
     File file = new File("./data/plot.txt");
-    String plotFile = new String("./data/plot.txt");
     List plotDic = new ArrayList();
 
+    // Constructor
     public BattlePanel(Run run, Archive archive) {
         super(run, archive);
         initializeContents();
@@ -43,30 +42,26 @@ public class BattlePanel extends GamePanel{
         addToPanel();
     }
 
+    // Setting background image
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        ImageIcon img = new ImageIcon("./data/fieldImg.png");
+        ImageIcon img = new ImageIcon("./data/GamingBg.jpeg");
         setBounds(0, 0, 1000, 700);
         img.paintIcon(this, graphics, 0, 0);
     }
 
+    // Initializing contents
     @Override
     public void initializeContents() {
         readPlot();
         battle = archive.getBattles().get(archive.getCheckPoint() - 1);
-        temp = new JLabel(archive.getSelectedWizard().getName());
         curWiz = archive.getSelectedWizard();
         curEne = battle.getEnemy();
-//        quir = new Quirrell("Quirrell");
-//        deathEater = new DeathEater("DeathEater");
-//        basilisk = new Basilisk("Basilisk");
-//        initializeBattle();
         playerIcon = new JLabel("");
         spellButtons = new ArrayList<>();
         initializePlayerIcon();
         enemyIcon = new JLabel("");
-//        setEnemyIcon();
         enemyIcon.setIcon(new ImageIcon("./data/" + battle.getEnemy().getName()+".png"));
         enemyIcon.setSize(200,200);
         gameInfo = new JLabel("");
@@ -77,31 +72,17 @@ public class BattlePanel extends GamePanel{
         playerHp.setFont(new Font("Serif", Font.ITALIC, 30));
         enemyHp.setFont(new Font("Serif", Font.ITALIC, 30));
         initializeButtons();
-
     }
 
-//    private void setEnemyIcon() {
-//        int i = archive.getCheckPoint();
-//        if (i == 1) {
-//            enemyIcon.setIcon(new ImageIcon("./data/DeathEater.png"));
-//        } else if (i == 2) {
-//            enemyIcon.setIcon(new);
-//        }
-//    }
-
+    // Generating buttons
     private void initializeButtons() {
-//        for (int i = 0; i < 4; i++) {
-//            List<Integer> indexList = new ArrayList<>();
-//            battle.getSpellToUse().values().iterator();
-//            spellButtons.add(new JButton(battle.getSpellToUse().get(i).getSpellsName()));
-//        }
         for (Iterator iter = battle.getSpellToUse().values().iterator(); iter.hasNext();) {
             Spell spell = (Spell) iter.next();
             spellButtons.add(new JButton(spell.getSpellsName()));
         }
     }
 
-
+    // Initializing wizard icons
     private void initializePlayerIcon() {
         if (curWiz.getName().equals("Harry")) {
             playerIcon.setIcon(new ImageIcon("./data/Harry.png"));
@@ -112,6 +93,7 @@ public class BattlePanel extends GamePanel{
         }
     }
 
+    // Initializing spell buttons interaction
     @Override
     public void initializeInteraction() {
         for (int i = 0; i < 4; i++) {
@@ -124,9 +106,9 @@ public class BattlePanel extends GamePanel{
                 }
             });
         }
-
     }
 
+    // One battle ends. Determining win or lose.
     private void endBattle() {
         if (curWiz.isDead) {
             loseDialog();
@@ -144,6 +126,7 @@ public class BattlePanel extends GamePanel{
         }
     }
 
+    // Showing winning message. Continue or go back.
     private void winDialog(int hp, int att) {
         if (archive.getCheckPoint() >= 4) {
             endGame();
@@ -174,6 +157,7 @@ public class BattlePanel extends GamePanel{
 
     }
 
+    // All the battles ended and won.
     private void endGame() {
         String message = "<html>Congratulations! You won all the battles!<br>But the amazing adventure just starts!<br>Be prepared! There will be more enemies...</html>";
         JOptionPane.showMessageDialog(this, message,
@@ -187,6 +171,7 @@ public class BattlePanel extends GamePanel{
         run.validate();
     }
 
+    // Showing lose message. Try again or go back.
     private void loseDialog() {
         int option = JOptionPane.showConfirmDialog(this,
                 "<html><body>You Lose. <br>Do you want to try again?<body></html>", "Battle End",
@@ -204,7 +189,8 @@ public class BattlePanel extends GamePanel{
         }
     }
 
-    private void updateArchive() {//!!!
+    // Updating the archive after winning or lose. Reset HP.
+    private void updateArchive() {
         if (archive.getCheckPoint() == 1) {
             archive.selectedWizard.setHp(archive.selectedWizard.getMaxHp());
             battle.spellToUse = null;
@@ -214,17 +200,12 @@ public class BattlePanel extends GamePanel{
         }
     }
 
-//    private void enemyRound() {
-//        String enemyAtt = curEne.getName() + "attacked you!";
-//        String enemyDmg = "Caused " + battle.attackEnemyToWizard(curEne, curWiz) + "damage!";
-//        gameInfo.setText("<>");
-//    }
-
-
+    // Set plot in gameInfo label.
     private void setPlot() { //!!!
         gameInfo.setText((String) plotDic.get(archive.getCheckPoint() - 1));
     }
 
+    // Showing player and enemy's action.
     private void playerRound(String name) {
         Spell currSpell = findSpell(name);
         String playerSpell = "You used the spell " + currSpell.getSpellsName();
@@ -236,11 +217,12 @@ public class BattlePanel extends GamePanel{
         setHPs();
     }
 
+    // returning caused damage using one spell.
     private int spellAttack(Spell currSpell) {
-//        Spell curSpell = findSpell(name);
         return battle.attackWizardToEnemy(curWiz, curEne, getSpellIndex(battle.getSpellToUse(), currSpell));
     }
 
+    // Helper method. Getting index of one spell.
     private int getSpellIndex(Map map, Object spell) {
         int ret = 0;
         for (Object index: map.keySet()) {
@@ -251,6 +233,7 @@ public class BattlePanel extends GamePanel{
         return ret;
     }
 
+    // Helper method. Find one spell in the map by it's name.
     private Spell findSpell(String name) { //?!
         Spell currSpell = null;
         if (name.equals("Stupefy")) {
@@ -267,6 +250,7 @@ public class BattlePanel extends GamePanel{
         return currSpell;
     }
 
+    // Setting hp of the wizard and enemy.
     private void setHPs() {
         if (curWiz.getHp() >= 0) {
             playerHp.setText("HP: "+ curWiz.getHp() + "/" + curWiz.getMaxHp());
@@ -280,6 +264,7 @@ public class BattlePanel extends GamePanel{
         }
     }
 
+    // Add elements to the panel.
     @Override
     public void addToPanel() {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -317,6 +302,7 @@ public class BattlePanel extends GamePanel{
 
     }
 
+    // Reading plot from the txt file.
     public List readPlot() {
         try {
             String str = new String();
@@ -332,9 +318,9 @@ public class BattlePanel extends GamePanel{
             e.printStackTrace();
         }
         return plotDic;
-
     }
 
+    // Update the panel.
     @Override
     public void updatePanel() {
         curWiz.setHp(curWiz.getMaxHp());

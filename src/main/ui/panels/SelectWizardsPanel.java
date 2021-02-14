@@ -91,7 +91,6 @@ public class SelectWizardsPanel extends GamePanel {
             public void actionPerformed(ActionEvent e) {
                 archive.setSelectedWizard(harry);
                 archive.setCheckPoint(1);
-//                initializeBattle();
                 selectWizardSuccessfulDialog();
             }
         });
@@ -100,7 +99,6 @@ public class SelectWizardsPanel extends GamePanel {
             public void actionPerformed(ActionEvent e) {
                 archive.setSelectedWizard(ron);
                 archive.setCheckPoint(1);
-//                initializeBattle();
                 selectWizardSuccessfulDialog();
             }
         });
@@ -109,7 +107,6 @@ public class SelectWizardsPanel extends GamePanel {
             public void actionPerformed(ActionEvent e) {
                 archive.setSelectedWizard(hermione);
                 archive.setCheckPoint(1);
-//                initializeBattle();
                 selectWizardSuccessfulDialog();
             }
         });
@@ -152,9 +149,7 @@ public class SelectWizardsPanel extends GamePanel {
                 setVisible(false);
                 selectSpells.setVisible(true);
                 run.validate();
-//                setVisible(false);
-////                run.game.setVisible(false);
-//                run.battle1();
+
             }
         });
     }

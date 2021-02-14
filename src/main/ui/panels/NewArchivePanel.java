@@ -24,7 +24,6 @@ public class NewArchivePanel extends GamePanel {
     private JLabel label;
     private JLabel info;
     private JTextField archiveName;
-//    private SelectWizardsPanel selectWizardsPanel;
     protected Archive selectedArchive;
     protected Archive curArchive;
 
@@ -59,7 +58,6 @@ public class NewArchivePanel extends GamePanel {
                  + "then select your new archive and double click continue.");
         label = new JLabel("Your existing archives: ");
         archiveName = new JTextField();
-//        selectWizardsPanel = new SelectWizardsPanel(run, archive);
     }
 
 
@@ -109,7 +107,6 @@ public class NewArchivePanel extends GamePanel {
                 updatePanel();
             }
         });
-//        NavigateAction toNext = new NavigateAction(run, this, selectWizardsPanel);
         continueGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -118,13 +115,11 @@ public class NewArchivePanel extends GamePanel {
                 } else {
                     GamePanel selectWizardsPanel = new SelectWizardsPanel(run, archive);
                     archive = selectedArchive;
-//                    continueGame.addActionListener(toNext);
                     selectWizardsPanel.updatePanel();
                     run.setContentPane(selectWizardsPanel);
                     setVisible(false);
                     selectWizardsPanel.setVisible(true);
                     run.validate();
-
                 }
             }
         });

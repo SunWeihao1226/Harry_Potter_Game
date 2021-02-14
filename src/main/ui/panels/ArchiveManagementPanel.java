@@ -131,6 +131,7 @@ public class ArchiveManagementPanel extends GamePanel {
         });
     }
 
+    // Rename one archive, and the feedback.
     private void renameArchive() {
         Object[] message = {"Please enter new archive name:", archiveRename};
         int num = JOptionPane.showConfirmDialog(this, message,
@@ -151,12 +152,14 @@ public class ArchiveManagementPanel extends GamePanel {
         }
     }
 
+    // show error message
     private void errorMessage() {
         JOptionPane.showMessageDialog(this,
                 "Please select an archive!",
                 "Error!", JOptionPane.PLAIN_MESSAGE);
     }
 
+    // show confirmation of deleting
     private void makeSureDelete() {
         int option = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to delete your archive: " + selectedArchive.getArchiveName() + "?", "Warning",
@@ -169,6 +172,7 @@ public class ArchiveManagementPanel extends GamePanel {
         }
     }
 
+    // remove one archive
     public void removeArchive() {
         slot.removeArchive(selectedArchive);
         report.setText(selectedArchive.getArchiveName() + " has been deleted.");

@@ -16,15 +16,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+// Selecting spells panel
 public class SelectSpellsPanel extends GamePanel {
-
     private JLabel intro1;
     private JLabel intro2;
     private JLabel showSpells;
     private List<JButton> spellButtons;
     private JButton toBattle;
     public Battle currBattle;
-//    public Quirrell quir;
 
     public Battle battle1;
     public Battle battle2;
@@ -33,11 +32,11 @@ public class SelectSpellsPanel extends GamePanel {
     public Enemies quir;
     public Enemies basilisk;
 
+    // Constructor
     public SelectSpellsPanel(Run run, Archive archive) {
         super(run, archive);
         initializeBattle();
         spellButtons = new ArrayList<>();
-//        quir = new Quirrell("Quirrell");
         currBattle = archive.getBattles().get(archive.getCheckPoint() - 1);
         initializeContents();
         addToPanel();
@@ -45,6 +44,7 @@ public class SelectSpellsPanel extends GamePanel {
 
     }
 
+    // Initialize contents
     @Override
     public void initializeContents() {
         intro1 = new JLabel("Hi! " + archive.getSelectedWizard().getName());
@@ -53,7 +53,6 @@ public class SelectSpellsPanel extends GamePanel {
         intro2.setFont(new Font("Serif", Font.ITALIC, 18));
         for (int i = 0; i < archive.getUnlockedSpells().values().size(); i++) {
             spellButtons.add(new JButton(archive.getUnlockedSpells().get(i + 1).getSpellsName()));
-//            spellButtons.get(i).setSize(50, 20);
         }
         toBattle = new JButton("Start Battle!");
         showSpells = new JLabel("Your chosen spells: ");
@@ -73,6 +72,7 @@ public class SelectSpellsPanel extends GamePanel {
 
     }
 
+    // Initializing buttons
     @Override
     public void initializeInteraction() {
         for (int i = 0; i < spellButtons.size(); i++) {
@@ -118,31 +118,28 @@ public class SelectSpellsPanel extends GamePanel {
 
     }
 
+    // showing message when selecting less than four spells
     private void continueSelectDialog() {
         JOptionPane.showMessageDialog(this, "You must select FOUR spells! Please continue selection.");
     }
 
+    // showing message when already selected four spells
     private void spellsFull() {
         JOptionPane.showMessageDialog(this, "You have already selected four spells! Please start your battle!");
     }
 
+    // showing message after selecting one spell
     private void selectedDialog(String name) {
         JOptionPane.showMessageDialog(this, "You have selected spell:" + name);
     }
 
+    // showing message when selecting one spell repeatedly
     private void repeatedSelect() {
         JOptionPane.showMessageDialog(this, "You have already selected this spell! Please choose another one");
     }
 
-//    private void showSelectingSpells(){
-//        String nameList = new String();
-//        for (int i = 0; i < battle1.spellToUse.size(); i++) {
-//            nameList = battle1.spellToUse.get(i + 1).spellsName + ", ";
-//        }
-//        showSpells.setText("Your chosen spells: " + nameList);
-//    }
 
-
+    // Add contents to the panel
     @Override
     public void addToPanel() {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -167,6 +164,5 @@ public class SelectSpellsPanel extends GamePanel {
 
     @Override
     public void updatePanel() {
-
     }
 }

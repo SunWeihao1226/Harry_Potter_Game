@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 
 // REFERENCE: https://blog.csdn.net/niaonao/article/details/53670337
@@ -19,14 +18,12 @@ public class StartPanel extends GamePanel {
     private JLabel intro2;
     private JLabel intro3;
     private JLabel intro4;
-    private GridBagConstraints constraints;
-    private List<JButton> backbuttons;
+
 
     // MODIFIES: this
     // EFFECTS: construct the panel.
     public StartPanel(Run run, Archive archive) {
         super(run, archive);
-//        backbuttons = new ArrayList<>();
         initializeContents();
         initializeInteraction();
         addToPanel();
@@ -34,7 +31,7 @@ public class StartPanel extends GamePanel {
 
     // MODIFIES: this
     // EFFECTS: initializes and add buttons on the start panel, adn add then to the buttons list
-    public void addButtons() { //!!! Delete! Add "back" button in each panel!
+    public void addButtons() {
         JButton button1 = new JButton("New Game");
         JButton button2 = new JButton("Load Game");
         JButton button3 = new JButton("Manage Archives");
@@ -54,34 +51,6 @@ public class StartPanel extends GamePanel {
         });
     }
 
-    // MODIFIES: this
-    // EFFECTS: Initialize the panels
-//    public void initializePanels() {//!!! delete!!
-//        panels.add(new NewArchivePanel(run, archive));
-//        panels.add(new ContinueGamePanel(run, archive));
-//        panels.add(new ArchiveManagementPanel(run, archive));
-//        constraints = new GridBagConstraints();
-//
-//        constraints.fill = GridBagConstraints.NONE;
-//        constraints.anchor = GridBagConstraints.LAST_LINE_END;
-//        constraints.insets = new Insets(10, 20, 5, 20);
-//        constraints.gridx = 4;
-//        constraints.gridy = 3;
-//
-//        for (GamePanel panel : panels) {
-//            JButton getBack = new JButton("back");
-//            backbuttons.add(getBack);
-//            panel.add(getBack, constraints);
-//        }
-//    }
-
-    // MODIFIES: this
-    // EFFECTS: initializes
-//    public void initializeButtons() {
-//        for (int i = 0; i < 3; i++) {
-//            backbuttons.get(i).addActionListener(new NavigateAction(run, panels.get(i), this));
-//        }
-//    }
 
 
     // EFFECTS: initialize contents in the panel.
@@ -99,11 +68,9 @@ public class StartPanel extends GamePanel {
         intro3.setFont(new Font("Serif", Font.ITALIC, 18));
         intro4 = new JLabel("The adventure starts from NOW!");
         intro4.setFont(new Font("Serif", Font.ITALIC, 18));
-//        initializePanels();
-//        initializeButtons();
     }
 
-
+    // Jump from this panel to next panel
     private void panelJump(GamePanel nextPanel) {
         run.archive = archive;
         nextPanel.updatePanel();
@@ -117,12 +84,6 @@ public class StartPanel extends GamePanel {
     // EFFECTS: initialize the interactions
     @Override
     public void initializeInteraction() {
-//        for (int i = 0; i < panels.size(); i++) {
-//            NavigateAction next = new NavigateAction(run, this, panels.get(i));
-//            buttons.get(i).addActionListener(next);
-//        }
-//        NavigateAction newArchivePanel = new NavigateAction(run, this, panels.get(0));
-//        buttons.get(0).addActionListener(newArchivePanel);
         buttons.get(0).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -130,8 +91,7 @@ public class StartPanel extends GamePanel {
                 panelJump(nextPanel);
             }
         });
-//        NavigateAction read = new NavigateAction(run, this, panels.get(1));
-//        buttons.get(1).addActionListener(read);
+
         buttons.get(1).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -140,8 +100,6 @@ public class StartPanel extends GamePanel {
             }
         });
 
-//        NavigateAction remove = new NavigateAction(run, this, panels.get(2));
-//        buttons.get(2).addActionListener(remove);
         buttons.get(2).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -149,6 +107,7 @@ public class StartPanel extends GamePanel {
                 panelJump(nextPanel);
             }
         });
+
         buttons.get(3).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -156,6 +115,7 @@ public class StartPanel extends GamePanel {
                 run.save();
             }
         });
+
         buttons.get(4).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
